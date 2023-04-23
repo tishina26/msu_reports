@@ -1,0 +1,541 @@
+\documentclass[a4paper,12pt,titlepage,finall]{article}
+
+\usepackage[T1,T2A]{fontenc}     % форматы шрифтов
+\usepackage[utf8x]{inputenc}     % кодировка символов, используемая в данном файле
+\usepackage[russian]{babel}      % пакет русификации
+\usepackage{tikz}                % для создания иллюстраций
+\usepackage{pgfplots}            % для вывода графиков функций
+\usepackage{geometry}		 % для настройки размера полей
+\usepackage{indentfirst}         % для отступа в первом абзаце секции
+\usepackage{hyperref}			% для гиперссылок
+% выбираем размер листа А4, все поля ставим по 3см
+\geometry{a4paper,left=30mm,top=30mm,bottom=30mm,right=30mm}
+
+\setcounter{secnumdepth}{0}      % отключаем нумерацию секций
+
+\usepgfplotslibrary{fillbetween} % для изображения областей на графиках
+
+% ДЛЯ КУСКОВ КОДА
+\usepackage{listings}
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstset{framextopmargin=50pt,frame=bottomline}
+\lstdefinestyle{DEFAULT}{
+  %language=NASM,
+  numbers=left,
+  stepnumber=1,
+  numbersep=10pt,
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false
+}
+\lstset{basicstyle=\ttfamily,style=DEFAULT}
+
+% ДЛЯ СХЕМ
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\begin{document}
+% Титульный лист
+\begin{titlepage}
+    \begin{center}
+	{\small \sc Московский государственный университет \\имени М.~В.~Ломоносова\\
+	Факультет вычислительной математики и кибернетики\\}
+	\vfill
+	{\Large \sc Отчет по заданию №6}\\
+	~\\
+	{\large \bf <<Сборка многомодульных программ. \\
+	Вычисление корней уравнений и определенных интегралов.>>}\\ 
+	~\\
+	{\large \bf Вариант 5 / 4 / 3}
+    \end{center}
+    \begin{flushright}
+	\vfill {Выполнил:\\
+	студент 102 группы\\
+	Тишина~У.~К.\\
+	~\\
+	Преподаватель:\\
+	Кулагин~А.~В.}
+    \end{flushright}
+    \begin{center}
+	\vfill
+	{\small Москва\\2022}
+    \end{center}
+\end{titlepage}
+
+% Автоматически генерируем оглавление на отдельной странице
+\tableofcontents
+\newpage
+
+\section{Постановка задачи}
+
+Требуется с заданной точностью ($\varepsilon$ = 0.001) реализовать численный метод,позволяющий вычислять площадь плоской фигуры,ограниченной тремя кривыми
+\begin{itemize}
+\item {$f_1 = 0.35x^2-0.95x+2.7$} 
+\item {$f_2 = 3x+1$} 
+\item {$f_3 = \frac{1}{x+2}$}
+\end{itemize}
+Для этого необходимо реализовать
+\begin{itemize}
+\item комбирированный метод для нахождения абсциссы точки пересечения двух функций
+\item метод Симпсона для нахождения определенного интеграла функции
+\end{itemize}
+Отрезки, в которых следует искать корни уравнений (вершины фигуры) должны быть вычислены аналитически.
+
+\newpage
+
+\section{Математическое обоснование}
+
+%\textcolor{green}{Синий \hbox{$x^2$}}
+
+\subsection{Обоснование выбора отрезков}
+
+Необходимо найти отрезок [a, b], на котором уравнение имеет ровно один корень.
+Достаточное условие для этого таково: на концах отрезка функция F(x) имеет разные знаки и на всем отрезке производная функции не меняет знак. Кроме того, для комбинированного метода обязательно требуется, чтобы на данном отрезке первая и вторая производные функции не меняли свой знак (не обращались в ноль).~\cite{math}
+
+\vspace{\baselineskip}
+
+$F_1$ = $f_1 - f_2 = 0.35x^2-0.95x+2.7-3x-1 = 0.35x^2-3.95x+1.7$
+
+Покажем, что при выборе a = 0, b = 1 условия для $F_1$ выполняются:
+
+$F_1(a)*F_1(b) = (0-0+1.7)*(0.35-3.95+1.7) = 1.7*(-1.9) < 0$ $\forall x$ - верно
+
+$F_1^\prime(x) = 0.7x-3.95 \Rightarrow F_1 < 0$ при $x \in [-\infty; 79/14] \Rightarrow$ при $x \in [0; 1]$ - верно
+
+$F_1^{\prime\prime}(x) = 0.7 > 0$ $\forall x$ - верно
+
+\vspace{\baselineskip}
+
+$F_2$ = $f_1 - f_3 = 0.35x^2-0.95x+2.7-\frac{1}{x+2}$
+
+Покажем, что при выборе a = -1.9, b = -1.5 условия для $F_2$ выполняются:
+
+$F_2(a)*F_2(b) = (0.35*3.61+1.805+2.7-\frac{1}{2-1.9})*(0.35*2.25+2.7-\frac{1}{2-1.5}) = (5.7685-10)*(4.9125-2) < 0$ $\forall x$ - верно
+
+%$F_2^\prime(x) = 0.7x-0.95 + \frac{1}{(x+2)^2} = \frac{14x^3+37x^2-20x-56}{20(x+2)^2} \Rightarrow F_2 > 0$ при $x \in [-1.9; -1.5]$ - верно
+$F_2^\prime(x) = 0.7x-0.95 + \frac{1}{(x+2)^2} \Rightarrow$  при $x \in [-1.9; -1.5] F_2 > 0$ - верно
+
+$F_2^{\prime\prime}(x) = 0.7 -\frac{2}{(x+2)^3} \Rightarrow F_2 < 0$ при $x \in [-1.9; -1.5]$ - верно
+
+\vspace{\baselineskip}
+
+$F_3$ = $f_2 - f_3 = 3x+1-\frac{1}{x+2}$
+
+Покажем, что при выборе a = -1, b = 0 условия для $F_3$ выполняются:
+
+$F_3(a)*F_3(b) = (-3+1-\frac{1}{2-1})*(0+1-\frac{1}{2}) = (-3)*0.5 < 0$ $\forall x$ - верно
+
+$F_3^\prime(x) = 3+\frac{1}{(x+2)^2} > 0$ $\forall x \Rightarrow$ при $x \in [-1; 0]$ - верно
+
+$F_3^{\prime\prime}(x) = -\frac{2}{(x+2)^3} \Rightarrow F_3 > 0$ при $x \in (-\infty; -2 \Rightarrow$ при $x \in [-1; 0]$ - верно
+
+\vspace{\baselineskip}
+
+Таким образом, все отрезки подобраны верно
+\newpage
+
+\subsection{Обоснование выбора $\varepsilon_1$ и $\varepsilon_2$}
+
+Из формулы Симпсона~\cite{maths} видно, что при разбиении отрезка на n отрезков погрешность будет составлять $n\varepsilon_1$.
+
+Подставим в правило Рунге~\cite{maths}: $\varepsilon_2 \geq |(n\varepsilon_1 - 2n\varepsilon_1) / 15| \Rightarrow 15\varepsilon_2 \geq n\varepsilon_1$ (1)
+
+Формула площади получилась следующая $S = I_1-I_2-I_3 \Rightarrow \varepsilon \geq 3\varepsilon_2$ (2)
+
+Получается, что $\varepsilon_2 \leq 0.001 / 3 \Rightarrow$ Пусть $\varepsilon_2 = 0.0001$
+
+Подставим в (1), учитывая, что в программе было принято n = 20:\par
+$\varepsilon_1 \leq \varepsilon_2*15/20 \leq $\{подставить (2)\}$\leq \varepsilon/4 \leq 0.001/4 \Rightarrow$ Пусть $\varepsilon_1 = 0.0001$
+
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[% grid=both,                % рисуем координатную сетку (если нужно)
+             axis lines=middle,          % рисуем оси координат в привычном для математики месте
+             restrict x to domain=-2:4,  % задаем диапазон значений переменной x
+             restrict y to domain=-1:6,  % задаем диапазон значений функции y(x)
+             axis equal,                 % требуем соблюдения пропорций по осям x и y
+             enlargelimits,              % разрешаем при необходимости увеличивать диапазоны переменных
+             legend cell align=left,     % задаем выравнивание в рамке обозначений
+             scale=2]                    % задаем масштаб 2:1
+
+% первая функция
+% параметр samples отвечает за качество прорисовки
+\addplot[red,samples=256,thick,name path=A] {0.35*x^2-0.95*x+2.7};
+% описание первой функции
+\addlegendentry{$y=0.35x^2-0.95x+2.7$}
+
+
+% добавим немного пустого места между описанием первой и второй функций
+\addlegendimage{empty legend}\addlegendentry{}
+
+% вторая функция
+% здесь необходимо дополнительно ограничить диапазон значений переменной x
+\addplot[blue,domain=-0.5:4,samples=256,thick,name path=B] {3*x+1};
+\addlegendentry{$y=(3x+1)$}
+
+% дополнительное пустое место не требуется, так как формулы имеют небольшой размер по высоте
+
+% третья функция
+\addplot[green,samples=256,thick,name path=C] {1/(x+2)};
+\addlegendentry{$y=\frac{1}{x+2}$}
+
+\end{axis}
+\end{tikzpicture}
+\caption{Плоская фигура, ограниченная графиками заданных уравнений}
+\label{plot1}
+\end{figure}
+
+\newpage
+
+\section{Результаты экспериментов}
+Результаты проведенных вычислений:
+
+\begin{itemize}
+\item получены координаты точек пересечения графиков (Таблица 1)
+\item вычислена прощадь плоской фигуры S = 5.1201 (Рис. 2)
+\end{itemize}
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Кривые & $x$ & $y$ \\
+\hline
+1 и 2 &  -1.821137 & 5.590869 \\
+1 и 3 &  -0.152873 & 0.541381 \\
+2 и 3 &   0.448178 & 2.344533 \\
+\hline
+\end{tabular}
+\caption{Координаты точек пересечения}
+\label{table1}
+\end{table}
+
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[% grid=both,                % рисуем координатную сетку (если нужно)
+             axis lines=middle,          % рисуем оси координат в привычном для математики месте
+             restrict x to domain=-2:4,  % задаем диапазон значений переменной x
+             restrict y to domain=-1:6,  % задаем диапазон значений функции y(x)
+             axis equal,                 % требуем соблюдения пропорций по осям x и y
+             enlargelimits,              % разрешаем при необходимости увеличивать диапазоны переменных
+             legend cell align=left,     % задаем выравнивание в рамке обозначений
+             scale=2,                    % задаем масштаб 2:1
+             xticklabels={,,},           % убираем нумерацию с оси x
+             yticklabels={,,}]           % убираем нумерацию с оси y
+
+% первая функция
+% параметр samples отвечает за качество прорисовки
+\addplot[red,samples=256,thick,name path=A] {0.35*x^2-0.95*x+2.7};
+% описание первой функции
+\addlegendentry{$y=0.35x^2-0.95x+2.7$}
+
+
+% добавим немного пустого места между описанием первой и второй функций
+\addlegendimage{empty legend}\addlegendentry{}
+
+% вторая функция
+% здесь необходимо дополнительно ограничить диапазон значений переменной x
+\addplot[blue,domain=-0.5:4,samples=256,thick,name path=B] {3*x+1};
+\addlegendentry{$y=(3x+1)$}
+
+% дополнительное пустое место не требуется, так как формулы имеют небольшой размер по высоте
+
+% третья функция
+\addplot[green,samples=256,thick,name path=C] {1/(x+2)};
+\addlegendentry{$y=\frac{1}{x+2}$}
+
+% закрашиваем фигуру
+\addplot[blue!20,samples=256] fill between[of=A and B,soft clip={domain=-0.152873:0.448178}];
+\addplot[blue!20,samples=256] fill between[of=A and C,soft clip={domain=-1.821137:-0.152873}];
+\addlegendentry{$S=5.1201$}
+
+% Поскольку автоматическое вычисление точек пересечения кривых в TiKZ реализовать сложно,
+% будем явно задавать координаты.
+\addplot[dashed] coordinates { (-1.821137, 5.590869) (-1.821137, 0) };
+\addplot[color=black] coordinates {(-1.821137, 0)} node [label={-120:{\small -1.821137}}]{};
+
+\addplot[dashed] coordinates { (-0.152873, 0.541381) (-0.152873, 0) };
+\addplot[color=black] coordinates {(-0.152873, 0)} node [label={-95:{\small -0.152873}}]{};
+
+\addplot[dashed] coordinates { (0.448178, 2.344533) (0.448178, 0) };
+\addplot[color=black] coordinates {(0.448178, 0)} node [label={-75:{\small 0.448178}}]{};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Плоская фигура, ограниченная графиками заданных уравнений}
+\label{plot2}
+\end{figure}
+
+\newpage
+
+\section{Структура программы и спецификация функций}
+
+В программе использовались 1 модуль на языке Си и 1 модуль на языке Ассемблер
+
+\subsection{Модуль на языке Си}
+
+\begin{itemize}
+\item {\texttt{double F(double(*f)(double), double(*g)(double), double x)}}\par
+Принимает на вход указатели на функции f и g и точку x типа double, в которой надо найти значение функции.\par
+Возвращает значение функции $F(x) = f(x) - g(x)$
+\item {\texttt{int find\_case(double(*f)(double), double(*g)(double), double a, } \par
+\texttt{double b)}}\par
+Принимает на вход указатели на функции f и g и граничные точки отрезка a и b типа double\par
+Определяет к какому случаю относится функция $F(x)$: \par
+Возвращает 1 если $F^\prime(x)*F^{\prime\prime}(x)>0$, иначе - 2
+\item {\texttt{void chord\_method(double(*f)(double), double(*g)(double), double a,}\par
+\texttt{double b, double *new\_a, double *new\_b)}} \par
+Принимает на вход указатели на функции f и g, граничные точки отрезка a и b типа double и указатели на граничные точки отрезка, которые требуется изменить new\_a и  new\_b типа double\par
+Изменяет одну из границ a\_new или b\_new с помощью 1 шага метода хорд\par
+Ничего не возвращает\par
+\item {\texttt{void tangent\_method(double(*f)(double), double(*g)(double),} \par
+\texttt{double(*df)(double), double(*dg)(double), double a, double b, } \par
+\texttt{double *new\_a, double *new\_b)}} \par
+Принимает на вход указатели на сами функции f и g и их производных df и dg, а так же граничные точки отрезка a и b типа double и указатели на граничные точки отрезка, которые требуется изменить new\_a и  new\_b типа double\par
+Изменяет одну из границ a или b с помощью 1 шага метода касательных\par
+Ничего не возвращает
+\item {\texttt{double root(double(*f)(double), double(*g)(double), } \par
+\texttt{double(*df)(double), double(*dg)(double), } \par
+\texttt{double a, double b, double eps)}} \par
+Принимает на вход указатели на сами функции f и g и их производных df и dg, а так же граничные точки отрезка a и b типа double и значение, определяющее точность вычислений, типа double\par
+Возвращает корень уравнения $F(x) = f(x) - g(x)$, найденный с помощью комбинированного метода
+\item {\texttt{double Sympson\_integral(double(*f)(double), double a, double b, } \par
+\texttt{int n, double* arr, int index)}} \par
+Принимает на вход указатель на функцию f, граничные точки отрезка a и b типа double, указатель на массив переменных типа double и флаг типа integer, определяющий надо ли заполнять массив значениями\par
+Возвращает определенный интеграл функции $f(x)$, найденный с помощью метода Симпсона, разбивая отрезок [a, b] на n отрезков
+\item {\texttt{double integral(double(*f)(double), double a, double b, double eps)}} \par
+Принимает на вход указатель на функцию f, граничные точки отрезка a и b типа double и значение, определяющее точность вычислений, типа double\par
+Возвращает определенный интеграл функции $f(x)$ с учетом правила Рунге для сохранения точности
+\item {\texttt{double area(void)}} \par
+Ничего не принимает на вход\par
+Возвращает площадь плоской фигуры
+\item {\texttt{void help(void)}} \par
+Ничего не принимает на вход и ничего не возвращает\par
+Выводит список и описание флагов
+\item {\texttt{void constants(void)}} \par
+Ничего не принимает на вход и ничего не возвращает\par
+Выводит список констант
+\item {\texttt{void test\_root(int i, char* arr[])}} \par
+Принимает на вход индекс, начиная с которого следует обрабатывать массив, а также указатель на сам массив элементов типа char\par
+Выводит результат функции \texttt{root()} от введенных переменных\par
+Ничего не возвращает
+\item {\texttt{void test\_root\_auto(void)}} \par
+Ничего не принимает на вход и ничего не возвращает\par
+Выводит результат функции \texttt{root()} от 3 наборов входных данных и сравнивает с правильным (посчитанным вручную) ответом
+\item {\texttt{void test\_integral(int i, char* arr[])}} \par
+Принимает на вход индекс, начиная с которого следует обрабатывать массив, а также указатель на сам массив элементов типа char\par
+Выводит результат функции \texttt{integral()} от введенных переменных
+\item {\texttt{void test\_integral\_auto(void)}} \par
+Ничего не принимает на вход и ничего не возвращает\par
+Выводит результат функции \texttt{integral()} от 3 наборов входных данных и сравнивает с правильным (посчитанным вручную) ответом
+\item {\texttt{void steps(void)}} \par
+Ничего не принимает на вход и ничего не возвращает\par
+Выводит количество итераций, которые проделала функция \texttt{root()} для нахождения корней уравнения
+\item {\texttt{void hello(void)}} \par
+Ничего не принимает на вход и ничего не возвращает\par
+Печатает вводные слова, информирует, какие функции обрабатывала программа и совет воспользоваться флагом \texttt{-help}
+\item {\texttt{int main(int argc, char *argv[])}} \par
+Принимает на вход количество введенных элементов в командной строке, разделенных пробелами, а также сам массив с этими элементами типа char\par
+Проверяет наличие введенных флагов и вызывает функцию \texttt{area()} для нахождения площади
+\end{itemize}
+
+\subsection{Модуль на языке Ассемблер}
+
+
+\begin{itemize}
+\item {\texttt{double f1(double x)}} \par
+Принимает на вход точку типа double, в которой надо найти значение функции\par
+Возвращает значение функции $f_1(x)$
+\item {\texttt{double f2(double x)}} \par
+Принимает на вход точку типа double, в которой надо найти значение функции\par
+Возвращает значение функции $f_2(x)$
+\item {\texttt{double f3(double x)}} \par
+Принимает на вход точку типа double, в которой надо найти значение функции\par
+Возвращает значение функции $f_3(x)$
+\item {\texttt{double df1(double x)}} \par
+Принимает на вход точку типа double, в которой надо найти значение производной функции\par
+Возвращает значение производной функции $f_1^\prime(x)$
+\item {\texttt{double df2(double x)}} \par
+Принимает на вход точку типа double, в которой надо найти значение производной функции\par
+Возвращает значение производной функции $f_2^\prime(x)$
+\item {\texttt{double df3(double x)}} \par
+Принимает на вход точку типа double, в которой надо найти значение производной функции\par
+Возвращает значение производной функции $f_3^\prime(x)$
+\end{itemize}
+
+\newpage
+
+
+\subsection{Схема связи функций}
+
+\tikzstyle{line} = [draw, -latex', ultra thick]
+
+\tikzstyle{block} = [draw=green!100, fill=green!20]
+\tikzstyle{block_empty} = [draw=white]
+\tikzstyle{blockC} = [draw=yellow!100, fill=yellow!20]
+\tikzstyle{blockAsm} = [draw=blue!100, fill=blue!20]
+
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[rectangle, node distance = 3cm, text width=5em, minimum height=3em, text centered, rounded corners, ultra thick, auto]
+    % Place nodes
+    \node [block_empty] (first) {};
+    \node [block, right of=first] (make) {Makefile};
+    \node [blockC, below of=first] (main) {main.c};
+    \node [block_empty, right of=main] (emp) {};
+    \node [blockAsm, right of=emp] (asm) {f.asm};
+    \node [blockC, below of=main] (other) {other functions};
+    \node [blockC, right of=other] (area) {area};
+    \node [blockC, below of=other] (integral) {integral};
+    \node [blockC, right of=integral] (root) {root};
+    \node [blockC, below of=integral] (Sintegral) {Sympson integral};
+    \node [blockC, right of=Sintegral] (hord) {chord method};
+    \node [blockC, right of=hord] (kasat) {tangent method};
+    \node [blockC, below of=hord] (find) {find case};
+    \node [blockAsm, below of=asm] (f) {f1, f2, f3};
+    \node [blockAsm, right of=f] (df) {df1, df2, df3};
+    % Draw edges
+    \path [line] (make) -- (main);
+    \path [line] (make) -- (asm);
+    \path [line] (main) -- (other);
+    \path [line] (main) -- (area);
+    \path [line] (area) -- (integral);
+    \path [line] (area) -- (root);
+    \path [line] (integral) -- (Sintegral);
+    \path [line] (root) -- (hord);
+    \path [line] (root) -- (kasat);
+    \path [line] (hord) -- (find);
+    \path [line] (kasat) -- (find);
+    \path [line] (asm) -- (f);
+    \path [line] (asm) -- (df);
+\end{tikzpicture}
+\caption{Схема связи функций}
+\label{plot3}
+\end{figure}
+
+\newpage
+
+\section{Сборка программы (Make-файл)}
+
+
+\textbf{\large Текст файла Makefile}\\
+
+\begin{lstlisting}
+.PHONY: all all_flags clean prog
+
+all:
+	@gcc -m32 -o prog test1.o f.o -lm
+
+test1.o: test1.c
+	@gcc -m32 -c -o test1.o test1.c -lm
+f.o: f.asm
+	@nasm -f elf32 -o f.o f.asm
+prog: test1.o f.o
+	@gcc -m32 -o prog test1.o f.o -lm
+
+
+all_flags: test1.o f.o
+	@gcc -m32 -o prog test1.o f.o -lm
+	@./prog -help -constants -test_root_auto -steps -test_integral_auto
+	@rm -rf prog *.o
+
+clean:
+	@rm -rf prog *.o
+\end{lstlisting}
+
+\vspace{\baselineskip}
+
+\vspace{\baselineskip}
+
+\vspace{\baselineskip}
+
+\textbf{\large Описание работы Makefile}\\
+
+Makefile создает объектные файлы \par
+test1.c $\Rightarrow$test1.o\par
+f.asm $\Rightarrow$f.o\par
+
+и собирает их в файл prog\par
+
+Сборка осуществляется по ключу all, удаление лишних файлов, созданных во время сборки - по ключу clean\par
+Сборка и запуск программы с автоматическими, самостоятельными флагами -help, -constants, -test\_root\_auto, -steps, -test\_integral\_auto - по ключу all\_flags\par
+
+\newpage
+
+\section{Отладка программы, тестирование функций}
+
+Вычисление точных значений производилось при помощи обычного калькулятора.\par
+Программа поддерживает возможность ручного ввода данных для отдельного тестирования функций root и integral, поэтому тестирование так и происходило - вводились данные и сверялись с ответом калькулятора.\par
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Функции & [a, b] &eps& Возвращает root & Точное значение & Примерно \\
+\hline
+$f_1, f_2$ & [-5.953;6.6891] &0.01 & 0.448178 & $(79-\sqrt{5289})/14$ & 0.449\\
+$f_1, f_3$ & [-1.9;5] &0.001 & -1.821137 & -1.82113692818546 & -1.821\\
+$f_2, f_3$ & [-1.999; 1000] &0.0001 & -0.152873 & $(-7+\sqrt{37})/6$ & -0.153\\
+
+\hline
+\end{tabular}
+\caption{Тестирование функции root}
+\label{table2}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Функция & [a, b] &eps& Возвращает integral & Точное значение \\
+\hline
+$f_1 $ & [0;12345] &0.001 & 219420339550.874969 & 219420339550.875 \\
+$f_2 $ & [7.95;99] &0.001 & 14697.746250 & 14697.74625 \\
+$f_3 $ & [9.584,51.453] &0.01 & 1.529160 & $\ln{53453/11584} = 1.529178$ \\
+
+\hline
+\end{tabular}
+\caption{Тестирование функции integral}
+\label{table3}
+\end{table}
+
+
+\vspace{\baselineskip}
+
+Таким образом, функции root и integral работают верно.
+
+\newpage
+
+\section{Программа на Си и на Ассемблере}
+
+Тексты программ собраны в архив и прилагаются к данному отчету.
+
+\newpage
+
+\section{Анализ допущенных ошибок}
+
+В процессе выполнения работы были допущены ошибки по невнимательности при написании функции root. 
+
+\newpage
+
+
+\begin{raggedright}
+\addcontentsline{toc}{section}{Список цитируемой литературы}
+\begin{thebibliography}{99}
+\bibitem{math} Трифонов Н.П., Пильщиков В.Н, «Задания практикума на ЭВМ», задание 1 пункт 1.5.1, Издательский отдел факультета вычислительной математики и кибернетики МГУ им. М.В.Ломоносова, 2001 
+\bibitem{maths} Трифонов Н.П., Пильщиков В.Н, «Задания практикума на ЭВМ», задание 1 пункты 1.5.5-6, Издательский отдел факультета вычислительной математики и кибернетики МГУ им. М.В.Ломоносова, 2001 
+\end{thebibliography}
+\end{raggedright}
+
+
+\end{document}
