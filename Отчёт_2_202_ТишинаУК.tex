@@ -1,0 +1,1017 @@
+\documentclass[a4paper,12pt,titlepage,finall]{article}
+
+\usepackage[T1,T2A]{fontenc}
+\usepackage{newunicodechar}
+
+\newunicodechar{≤}{\ensuremath{\leq}}
+\usepackage[utf8x]{inputenc}
+\usepackage[russian,english]{babel}
+\usepackage{geometry}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{systeme,mathtools}
+
+
+
+\usepackage{blindtext}
+\usepackage{multicol}
+%Для вставки рисунков
+\usepackage{graphicx}
+\graphicspath{{pictures/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{255,255,255}
+\definecolor{ao}{rgb}{0.0, 0.5, 0.0}
+\definecolor{alizarin}{rgb}{0.82, 0.1, 0.26}
+
+%Code listing style named "mystyle"
+\lstset{upquote=true}
+% ДЛЯ КУСКОВ КОДА
+\usepackage{listings}
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstset{framextopmargin=50pt,frame=bottomline}
+\lstdefinestyle{DEFAULT}{
+  %language=NASM,
+  numbers=left,
+  stepnumber=1,
+  numbersep=10pt,
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false
+}
+\lstset{%basicstyle=\ttfamily,style=DEFAULT
+    inputencoding=utf8,
+    extendedchars=true,
+    literate={а}{{\selectfont\char224}}1
+    {б}{{\selectfont\char225}}1
+    {в}{{\selectfont\char226}}1
+    {г}{{\selectfont\char227}}1
+    {д}{{\selectfont\char228}}1
+    {е}{{\selectfont\char229}}1
+    {ё}{{\"e}}1
+    {ж}{{\selectfont\char230}}1
+    {з}{{\selectfont\char231}}1
+    {и}{{\selectfont\char232}}1
+    {й}{{\selectfont\char233}}1
+    {к}{{\selectfont\char234}}1
+    {л}{{\selectfont\char235}}1
+    {м}{{\selectfont\char236}}1
+    {н}{{\selectfont\char237}}1
+    {о}{{\selectfont\char238}}1
+    {п}{{\selectfont\char239}}1
+    {р}{{\selectfont\char240}}1
+    {с}{{\selectfont\char241}}1
+    {т}{{\selectfont\char242}}1
+    {у}{{\selectfont\char243}}1
+    {ф}{{\selectfont\char244}}1
+    {х}{{\selectfont\char245}}1
+    {ц}{{\selectfont\char246}}1
+    {ч}{{\selectfont\char247}}1
+    {ш}{{\selectfont\char248}}1
+    {щ}{{\selectfont\char249}}1
+    {ъ}{{\selectfont\char250}}1
+    {ы}{{\selectfont\char251}}1
+    {ь}{{\selectfont\char252}}1
+    {э}{{\selectfont\char253}}1
+    {ю}{{\selectfont\char254}}1
+    {я}{{\selectfont\char255}}1
+    {А}{{\selectfont\char192}}1
+    {Б}{{\selectfont\char193}}1
+    {В}{{\selectfont\char194}}1
+    {Г}{{\selectfont\char195}}1
+    {Д}{{\selectfont\char196}}1
+    {Е}{{\selectfont\char197}}1
+    {Ё}{{\"E}}1
+    {Ж}{{\selectfont\char198}}1
+    {З}{{\selectfont\char199}}1
+    {И}{{\selectfont\char200}}1
+    {Й}{{\selectfont\char201}}1
+    {К}{{\selectfont\char202}}1
+    {Л}{{\selectfont\char203}}1
+    {М}{{\selectfont\char204}}1
+    {Н}{{\selectfont\char205}}1
+    {О}{{\selectfont\char206}}1
+    {П}{{\selectfont\char207}}1
+    {Р}{{\selectfont\char208}}1
+    {С}{{\selectfont\char209}}1
+    {Т}{{\selectfont\char210}}1
+    {У}{{\selectfont\char211}}1
+    {Ф}{{\selectfont\char212}}1
+    {Х}{{\selectfont\char213}}1
+    {Ц}{{\selectfont\char214}}1
+    {Ч}{{\selectfont\char215}}1
+    {Ш}{{\selectfont\char216}}1
+    {Щ}{{\selectfont\char217}}1
+    {Ъ}{{\selectfont\char218}}1
+    {Ы}{{\selectfont\char219}}1
+    {Ь}{{\selectfont\char220}}1
+    {Э}{{\selectfont\char221}}1
+    {Ю}{{\selectfont\char222}}1
+    {Я}{{\selectfont\char223}}1
+}
+
+
+\geometry{a4paper,left=30mm,top=30mm,bottom=30mm,right=30mm}
+
+\setcounter{secnumdepth}{0}      % отключаем нумерацию секций
+
+\usepackage{hyphenat}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+
+\usepgfplotslibrary{fillbetween}
+\usepackage{titling}
+\setlength{\droptitle}{-3cm}
+
+\usepackage{geometry}
+\geometry{a4paper,left=25mm,top=25mm,bottom=30mm,right=25mm}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\graphicspath{ {./img/} }
+
+\usepackage{float}
+\usepackage{anyfontsize}
+
+\begin{document}
+
+\begin{titlepage}
+	\newgeometry{a4paper,left=20mm,top=20mm,bottom=20mm,right=20mm}
+	\begin{center}
+	\includegraphics[height=0.5in]{msu.png}
+	\hfill
+	\begin{minipage}[b]{0.77\textwidth}
+		\centering
+		\textbf{\fontsize{12}{9}\selectfont МОСКОВСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ}
+		\bigbreak
+		\textbf{\fontsize{12}{9}\selectfont имени М.В.Ломоносова}
+	\end{minipage}
+	\hfill
+	\includegraphics[height=0.5in]{vmk.png}
+	\bigbreak
+	\textbf{\fontsize{12}{9}\selectfont Факультет вычислительной математики и кибернетики}
+	\end{center}
+	\vspace{-0.1cm}
+	\hrule
+	
+	\vfill
+	
+	\begin{center}
+	{\fontsize{16}{30}\selectfont 
+	\bf Компьютерный практикум по учебному курсу\\ 
+				«ВВЕДЕНИЕ В ЧИСЛЕННЫЕ МЕТОДЫ» \\ 
+				ЗАДАНИЕ № 2 \\
+				Подвариант № 1(1-6, 2-5)\\
+				Подвариант № 2(4)\\}
+				
+	\vspace{20pt}
+	
+	{\fontsize{16}{30}\selectfont 
+	\textbf{ОТЧЕТ\\
+	о выполненном задании\\}
+	студента 202 учебной группы факультета ВМК МГУ\\
+	Тишиной Ульяны Кирилловны\\}
+	\end{center}
+	
+	\vfill
+	\center{гор. Москва\\ 2022 год}
+
+
+
+\end{titlepage}
+
+% Автоматически генерируем оглавление на отдельной странице
+\tableofcontents
+\newpage
+\section{Цель работы 1}
+Освоить методы Рунге-Кутта второго и четвертого порядка точности, применяемые для численного решения задачи Коши для дифференциального уравнения (или системы дифференциальных уравнений) первого порядка.
+\section{Постановка задачи 1}
+
+Рассматривается обыкновенное дифференциальное уравнение первого порядка, разрешенное относительно производной и имеющее вид:
+
+$\frac{dy}{dx} = f(x, y), x_{0} < x$ (1),
+
+с дополнительным начальным условием, заданным в точке $x = x_{0} : y(x_{0}) = y_{0}$ (2)
+
+Предполагается, что правая часть уравнения (1) функция $f = f(x, y)$ такова, что гарантирует существование и единственность решения задачи Коши (1)-(2).
+
+В том случае, если рассматривается не одно дифференциальное уравнение вида (1), а система обыкновенных дифференциальных уравнений первого порядка, разрешенных относительно производных неизвестных функций, то соответствующая задача Коши имеет вид (на примере двух дифференциальных уравнений):
+
+\begin{equation*}
+ \begin{cases}
+   \frac{dy_{1}}{dx} = f_{1}(x, y_{1}, y_{2}),
+   \\
+   \frac{dy_{2}}{dx} = f_{2}(x, y_{1}, y_{2}), x > x_{0}
+ \end{cases}
+\end{equation*} (2)
+
+Дополнительные (начальные) условия задаются в точке $x = x_{0} : y_{1}(x_{0}) = y_{1}^{(0)}, y_{2}(x_{0}) = y_{2}^{(0)}$ (4)
+
+Также предполагается, что правые части уравнений из (3) заданы так, что это гарантирует существование и единственность решения задачи Коши (3)-(4), но уже для системы обыкновенных дифференциальных уравнений первого порядка в форме, разрешенной относительно производных неизвестных функций.
+
+Заметим, что к подобным задачам сводятся многие важные задачи, возникающие в механике (уравнения движения материальной точки), небесной механике, химической кинетике, гидродинамике и т.п.
+
+\section{Задачи практической работы 1}
+\begin{enumerate}
+\item Решить задачу Коши наиболее известными и широко используемыми на практике методами Рунге-Кутта второго и четвертого порядка точности, аппроксимировав дифференциальную задачу соответствующей разностной схемой (на равномерной сетке); полученное конечно-разностное уравнение (или уравнения в случае системы), представляющее фактически некоторую рекуррентную формулу, просчитать численно;
+\item Найти численное решение задачи и построить его график;
+\item Найденное численное решение сравнить с точным решением дифференциального уравнения;
+
+\end{enumerate}
+
+\newpage
+
+\section{Алгоритм 1}
+\subsection{Метод Рунге-Кутта второго порядка}
+
+Опишем процесс нахождения численного решения задачи Коши для одного дифференциального уравнения $y^{\prime} = f(x, y)$ с начальным условием $y(x_{0}) = y_{0}$
+
+Рассмотрим отрезок $[x_{0},x_{0}+l]$ и его равномерную сетку из n точек $x_{i+1}-x_{i} = h = l/n$, 0 <= i <= n - 1.
+
+Предположим, что решение уравнение имеет производные достаточно высокого порядка, разложим решение дифференциального уравнения по формуле Тейлора и получим разностное уравнение:
+
+$\frac{y_{i+1}-y_{i}}{h} = f(x_{i}, y_{i}) + \frac{h}{2} * (\frac{df}{dx}(x_{i},y_{i})+ \frac{df}{dx}(x_{i},y_{i}) * f(x_{i}, y_{i}))$
+
+
+Метод Рунге-Кутта второго порядка заключается в том, чтобы приближенно заменить правую часть уравнения на сумму значений функции f в двух разных точках с точностью до членов порядка h. Положим, что
+
+Правая часть = $\beta * f(x_{i},y_{i}) + \alpha * f(x_{i} + \gamma h,y_{i}+\delta h) + O(h^{2})$  (5)
+
+где $\alpha,\beta,\gamma,\delta$ - 4 свободных параметра. Раскладывая функцию $f(x_{i} + \gamma h,y_{i}+\delta h)$ по Тейлору и подставляя в разложение (5), получим, что
+
+$\beta = 1 - \alpha$
+
+$\gamma = \frac{1}{2\alpha}$
+
+$\delta = \frac{1}{2\alpha} f(x_{i}, y_{i})$
+
+Подставив эти коэффициенты в правую часть (5) и отбросив члены порядка O($h^{2}$), получим разностные схемы Рунге-Кутта:
+
+$\frac{y_{i+1}-y_{i}}{h} = (1-\alpha)f(x_{i},y_{i})+\alpha f(x_{i}+\frac{h}{2\alpha}),y_{i}+\frac{h}{2\alpha}f(x_{i},y_{i})$
+
+Отсюда получаем рекуррентное соотношение $y_{i+1} = y_{i}+h(...)$
+
+
+Одной из самых удобных схем для вычисления является схема "предиктор - корректор" $\alpha$ = 0.5. Тогда формула принимает следующий вид:
+
+$y_{i+1} = y_{i} + \frac{h}{2}[f(x_i,y_i) + f(x_i + h, y_i + hf(x_i,y_i))]$
+
+В случае решения задачи Коши для системы дифференциальных уравнений, эта формула также справедлива для любого y из вектора решений.
+
+
+\subsection{Метод Рунге-Кутта четвертого порядка}
+
+Гораздо более точный результат дает схема Рунге-Кутта четвертого порядка точности следующего вида:
+
+$y_{i+1} = y_i + \frac{1}{6} h(k_1 + 2k_2 + 2k_3 + k_4)$
+
+где $k_1 = f(x_i, y_i)$, $k_2  f(x_i + \frac{h}{2},y_i + \frac{h}{2} k_1)$, 
+
+$k_3 = f(x_i + \frac{h}{2},y_i + \frac{h}{2} k_2)$, $k_4 = f(x_i + h, y_i + hk_3)$
+
+В случае системы дифференциальных уравнений сопоставление схем проводится аналогичным образом.
+
+
+Используя эти рекуррентные формулы, можно последовательно рассчитать сеточную функцию и построить ее график.
+
+\newpage
+\section{Описание программы 1}
+
+Реализует метод Рунге-Кутта второго и четвертого порядка для уравнения и системы из двух уравнений
+
+\subsection{Функция main}
+Программа начинает своё выполнение в функции
+\begin{verbatim}
+int main(int argc, char **argv)
+\end{verbatim}
+
+Задается отрезок, на котором найти точки и количество разбиений отрезк.
+Дальше программа сама дважды применит алгоритм Рунге-Кутта порядка 2 и дважды порядка 4 - для одного уравнения и системы из двух уравнений
+
+\subsection{Функции уравнений}
+
+\begin{verbatim}
+double f(double x, double y)
+\end{verbatim}
+
+Функция реализует функцию моего варианта. Принимает точку, возвращает значение в этой точке.
+
+\begin{verbatim}
+double f1(double x, double u, double v)
+\end{verbatim}
+
+\begin{verbatim}
+double f2(double x, double u, double v)
+\end{verbatim}
+
+Реализует две функции, которые вместе образуют систему. Принимают точку, возвращаеют значение в ней.
+
+\newpage
+\section{Код программы 1}
+\begin{lstlisting}
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+double f(double x, double y) {
+    return (x - x * x) * y;
+}
+double f1(double x, double u, double v) {
+	return cos(u + 1.1 * v) + 2.1;
+}
+double f2(double x, double u, double v) {
+	return 1.1 / (x + 2.1 * u * u) + x + 1;
+}
+
+int main(int argc, char **argv) {
+	double a, b;
+	printf("Задайте отрезок, на котором строить график\n");
+	scanf("%lf %lf", &a, &b);
+
+	int n;
+	printf("Задайте частоту разбивки для корректного применения методов\n");
+	scanf("%d", &n);
+
+	double h = (b - a) / n;
+	
+	// Алгоритм Рунге-Кутта второго порядка точности для одного уравнения
+
+	double x0 = 0, y0 = 1;
+	
+	printf("\nАлгоритм R_K_2 для 1 уравнения дает точки:\n");
+	
+	double x_i = x0, y_i = y0;
+
+	for (int i = 0; i < n; i++) {
+		y_i = y_i + h/2. * (f(x_i,y_i) + f(x_i + h, y_i + h*f(x_i,y_i)));
+		x_i += h;
+		printf("(%.3lf;\t%.3lf)\n", x_i, y_i);
+	}
+
+	// Алгоритм Рунге-Кутта четвертого порядка точности для одного уравнения
+	printf("\nАлгоритм R_K_4 для 1 уравнения дает точки:\n");
+
+	x_i = x0; y_i = y0;
+
+	for (int i = 0; i < n; i++) {
+		double k1 = h*f(x_i,y_i);
+		double k2 = h*f(x_i + h/2.,y_i + k1/2.);
+		double k3 = h*f(x_i + h/2.,y_i + k2/2.);
+		double k4 = h*f(x_i + h,y_i + k3);
+		x_i += h;
+		y_i = y_i + (k1 + 2*k2 + 2*k3 + k4) / 6.;
+		printf("(%.3lf;\t%.3lf)\n", x_i, y_i);
+	}
+	
+	// Алгоритм Рунге-Кутта второго порядка точности для системы из 2 уравнений
+	
+	x0 = 0;
+	double y10 = 1, y20 = 0.05;
+	
+	printf("\nАлгоритм R_K_2 для системы уравнений дает точки:\n");
+	
+	x_i = x0;
+	double u_i = y10, v_i = y20, u, v;
+
+	for (int i = 0; i < n; i++) {
+		double du = u_i + h*f1(x_i,u_i,v_i);
+		double dv = v_i + h*f2(x_i,u_i,v_i);
+		u = u_i + (f1(x_i,u_i,v_i) + f1(x_i + h,du,dv))*h/2;
+		v = v_i + (f2(x_i,u_i,v_i) + f2(x_i + h,du,dv))*h/2;
+		x_i += h;
+		u_i = u; v_i = v;
+		printf("(%.3lf,\t%.3lf,\t%.3lf)\n", x_i, u_i, v_i);
+	}
+
+	//Алгоритм Рунге-Кутта четвертого порядка точности для системы из 2 уравнений
+	printf("\nАлгоритм R_K_4 для системы уравнений дает точки:\n");
+
+	x_i = x0, u_i = y10, v_i = y20;
+	
+	for (int i = 0; i < n; i++) {
+		double k1 = h*f1(x_i,u_i,v_i);
+		double l1 = h*f2(x_i,u_i,v_i);
+		double k2 = h*f1(x_i + h/2.,u_i + k1/2., v_i + l1/2.);
+		double l2 = h*f2(x_i + h/2.,u_i + k1/2., v_i + l1/2.);
+		double k3 = h*f1(x_i + h/2.,u_i + k2/2., v_i + l2/2.);
+		double l3 = h*f2(x_i + h/2.,u_i + k2/2., v_i + l2/2.);
+		double k4 = h*f1(x_i + h,u_i + k3, v_i + l3);
+		double l4 = h*f2(x_i + h,u_i + k3, v_i + l3);
+		x_i += h;
+		u_i = u_i + (k1 + 2*k2 + 2*k3 + k4) / 6.;
+		v_i = v_i + (l1 + 2*l2 + 2*l3 + l4) / 6.;
+		printf("(%.3lf,\t%.3lf,\t%.3lf)\n", x_i, u_i, v_i);
+	}
+	return 0;
+}
+
+\end{lstlisting}
+
+\newpage
+
+\section{Тестирование программы 1}
+
+Тестирование проводилось на уравнении 1-6 и системе 2-5. Точные решения даны по условию. Построено в Desmos.
+
+\subsection{Приложение 1. Вариант 1-6.}
+
+Задача Коши:
+
+\begin{equation*}
+ \begin{cases}
+   f(x, y) = (x - x^{2})y
+   \\
+   (x_{0},y_{0}) = (0,1)
+ \end{cases}
+\end{equation*}
+
+Точное решение (из условия): $e^{\frac{-1}{6} x^{2} (-3+2x)}$
+
+Вывод моей программы при выбранном отрезке (0,3) при n = 10 и 15:
+
+
+\begin{multicols}{2}
+
+\begin{verbatim}
+n = 10
+Алгоритм R_K_2 для 1 
+уравнения дает точки:
+(0.300; 1.032)
+(0.600; 1.103)
+(0.900; 1.159)
+(1.200; 1.132)
+(1.500; 0.973)
+(1.800; 0.701)
+(2.100; 0.411)
+(2.400; 0.205)
+(2.700; 0.103)
+(3.000; 0.067)
+
+Алгоритм R_K_4 для 1 
+уравнения дает точки:
+(0.300; 1.037)
+(0.600; 1.114)
+(0.900; 1.176)
+(1.200; 1.155)
+(1.500; 1.000)
+(1.800; 0.723)
+(2.100; 0.414)
+(2.400; 0.179)
+(2.700; 0.057)
+(3.000; 0.015)
+\end{verbatim}
+
+\columnbreak
+\begin{verbatim}
+n = 15
+Алгоритм R_K_2 для 1 
+уравнения дает точки:
+(0.200; 1.016)
+(0.400; 1.057)
+(0.600; 1.109)
+(0.800; 1.155)
+(1.000; 1.173)
+(1.200; 1.145)
+(1.400; 1.056)
+(1.600; 0.907)
+(1.800; 0.715)
+(2.000; 0.510)
+(2.200; 0.327)
+(2.400; 0.189)
+(2.600; 0.100)
+(2.800; 0.050)
+(3.000; 0.025)
+
+Алгоритм R_K_4 для 1 
+уравнения дает точки:
+(0.200; 1.017)
+(0.400; 1.060)
+(0.600; 1.114)
+(0.800; 1.161)
+(1.000; 1.181)
+(1.200; 1.155)
+(1.400; 1.068)
+(1.600; 0.918)
+(1.800; 0.723)
+(2.000; 0.513)
+(2.200; 0.323)
+(2.400; 0.178)
+(2.600; 0.084)
+(2.800; 0.034)
+(3.000; 0.012)
+\end{verbatim}
+
+%\blindtext\blindtext
+\end{multicols}
+
+\newpage
+
+\subsection{График}
+Построенные графики по точкам программы и точному решению из условия:
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=6cm]{chart1.jpg}
+\caption{Синее - точное решение, красное - метод Р-К 2 порядка с n = 10, зеленое - n = 15}
+\end{figure}
+
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=6cm]{chart2.jpg}
+\includegraphics[height=6cm]{chart2_1.jpg}
+\caption{Синее - точное решение, красное - метод Р-К 4 порядка с n = 10, зеленое - n = 15}
+\end{figure}
+
+
+\newpage
+
+
+\subsection{Приложение 1. Вариант 2-5.}
+
+Задача Коши:
+
+\begin{equation*}
+ \begin{cases}
+   f_{1}(x, u, v) = cos(u + 1.1 * v) + 2.1
+   \\
+   f_{2}(x, u, v) = \frac{1.1}{x+2.1*u^{2}}+x+1
+   \\
+   (x_{0},y_{1}^{(0)},y_{2}^{(0)}) = (0,1,0.05)
+ \end{cases}
+\end{equation*}
+
+Вывод моей программы при выбранном отрезке (0,5) при n = 5,10,15:
+
+
+\begin{multicols}{3}
+
+\begin{verbatim}
+n = 5
+Алгоритм R_K_2 для системы 
+уравнений дает точки:
+(1.000, 3.634,  1.831)
+(2.000, 6.037,  4.357)
+(3.000, 7.589,  7.868)
+(4.000, 8.761,  12.375)
+(5.000, 10.042, 17.881)
+
+Алгоритм R_K_4 для системы 
+уравнений дает точки:
+(1.000, 2.509,  1.750)
+(2.000, 4.888,  4.291)
+(3.000, 7.260,  7.805)
+(4.000, 9.674,  12.313)
+(5.000, 11.647, 17.817)
+\end{verbatim}
+
+\columnbreak
+
+\begin{verbatim}
+n = 10
+Алгоритм R_K_2 для системы 
+уравнений дает точки:
+(0.500, 1.924,  0.830)
+(1.000, 2.637,  1.757)
+(1.500, 3.881,  2.910)
+(2.000, 4.880,  4.297)
+(2.500, 5.869,  5.932)
+(3.000, 6.919,  7.813)
+(3.500, 7.934,  9.943)
+(4.000, 9.080,  12.321)
+(4.500, 10.085, 14.949)
+(5.000, 11.366, 17.827)
+
+Алгоритм R_K_4 для системы 
+уравнений дает точки:
+(0.500, 1.880,  0.803)
+(1.000, 2.518,  1.731)
+(1.500, 3.852,  2.882)
+(2.000, 4.737,  4.270)
+(2.500, 5.666,  5.905)
+(3.000, 6.812,  7.786)
+(3.500, 7.729,  9.916)
+(4.000, 8.745,  12.295)
+(4.500, 9.903,  14.923)
+(5.000, 10.670, 17.800)
+\end{verbatim}
+
+\columnbreak
+\begin{verbatim}
+n = 15
+Алгоритм R_K_2 для системы 
+уравнений дает точки:
+(0.333, 1.651,  0.550)
+(0.667, 2.081,  1.098)
+(1.000, 2.551,  1.742)
+(1.333, 3.361,  2.485)
+(1.667, 4.202,  3.330)
+(2.000, 4.735,  4.282)
+(2.333, 5.256,  5.345)
+(2.667, 6.121,  6.517)
+(3.000, 6.781,  7.799)
+(3.333, 7.314,  9.191)
+(3.667, 8.140,  10.694)
+(4.000, 8.775,  12.307)
+(4.333, 9.455,  14.032)
+(4.667, 10.163, 15.867)
+(5.000, 10.778, 17.813)
+
+Алгоритм R_K_4 для системы 
+уравнений дает точки:
+(0.333, 1.663,  0.537)
+(0.667, 2.067,  1.084)
+(1.000, 2.519,  1.727)
+(1.333, 3.356,  2.469)
+(1.667, 4.270,  3.314)
+(2.000, 4.744,  4.267)
+(2.333, 5.237,  5.329)
+(2.667, 6.183,  6.501)
+(3.000, 6.812,  7.783)
+(3.333, 7.281,  9.175)
+(3.667, 8.222,  10.678)
+(4.000, 8.742,  12.291)
+(4.333, 9.417,  14.016)
+(4.667, 10.213, 15.851)
+(5.000, 10.711, 17.797)
+\end{verbatim}
+
+%\blindtext\blindtext
+\end{multicols}
+
+\newpage
+\subsection{График}
+Построим график на отрезке от 0 до 5 для всех разбиений:
+
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=6cm]{chart3.jpg}
+\includegraphics[width=6cm]{chart3_1.jpg}
+\caption{Красное - метод Р-К 2 порядка с n = 5, зеленое - n = 10, синее - n = 15}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=6cm]{chart4.jpg}
+\includegraphics[width=6cm]{chart4_1.jpg}
+\caption{Красное - метод Р-К 4 порядка с n = 5, зеленое - n = 10, синее - n = 15}
+\end{figure}
+
+
+
+\newpage
+    
+
+\newpage
+
+\section{Цель работы 2}
+Освоить метод прогонки решения краевой задачи для дифференциального
+уравнения второго порядка.
+\section{Постановка задачи 2}
+Рассматривается линейное дифференциальное уравнение второго порядка вида
+$y^{\prime\prime} + p(x)*y^{\prime}+q(x)*y=-f(x), a<x<b$
+с дополнительными условиями в граничных точках
+
+\begin{equation*}
+ \begin{cases}
+   {\sigma}_1 y(a) + {\gamma}_1 y^{\prime}(a) = {\delta}_1
+   \\
+   {\sigma_2} y(b) + {\gamma}_1 y^{\prime}(b) = {\delta}_2
+ \end{cases}
+\end{equation*}
+
+\section{Задачи практической работы 2}
+\begin{enumerate}
+\item Решить краевую задачу методом конечных разностей, аппроксимировав ее разностной схемой второго порядка точности (на равномерной сетке); полученную систему конечно-разностных уравнений решить методом прогонки;
+\item Найти разностное решение задачи и построить его график;
+\item Найденное разностное решение сравнить с точным решением
+дифференциального уравнения;
+\end{enumerate}
+\newpage
+
+\section{Алгоритм 2}
+\subsection{Метод нахождения численного решения краевой задачи}
+
+Опишем процесс нахождения численного решения краевой задачи для одного
+дифференциального уравнения
+
+$y^{\prime\prime} + p(x) y^{\prime} + q(x) y = -f(x)$
+
+с дополнительными условиями в граничных точках:
+
+\begin{equation*}
+ \begin{cases}
+   {\sigma}_1 y(a) + {\gamma}_1 y^{\prime}(a) = {\delta}_1
+   \\
+   {\sigma_2} y(b) + {\gamma}_1 y^{\prime}(b) = {\delta}_2
+ \end{cases}
+\end{equation*}
+
+Рассмотрим отрезок [a,b] и разобьем его на n частей:
+$x_i = a +ih$, где $h = \frac{b - a}{n}$, o <= i <= n.
+
+Обозначим $y_i = y(x_i)$, $p_i = p(x_i)$, $q_i = q(x_i)$, $f_i = f(x_i)$
+
+Заменяя производные в исходном дифференциальном уравнении конечно - разностными отношениями, получаем:
+
+$\frac{y_{i+1} - 2y + y_{i-1}}{h^{2}} + p_i \frac{y_{i+1} - y_{i-1}}{2h} + q_i y_i = -f_i$ , 1 <= i <= n-1    (3)
+
+Аппроксимируем также производные в дополнительных условиях
+
+\begin{equation*}
+ \begin{cases}
+   {\sigma}_1 y_0 + {\gamma}_1 \frac{y_1 - y_0}{h} = {\delta}_1
+   \\
+   {\sigma}_2 y_n + {\gamma}_2 \frac{y_{n+1} - y_n}{h} = {\delta}_2
+ \end{cases}
+\end{equation*}
+
+
+Собирая коэффициенты при $y_i , y_{i+1} , y_{i+1} $ в уравнении (3) и при $y_0 , y_1 , y_n , y_{n+1}$ получим следующую СЛАУ с неизвестными $y_0 , y_1 , .. , y_n$ :
+
+\begin{equation*}
+ \begin{cases}
+   y_0 ({\sigma}_1 - \frac{{\gamma}_1}{h}) + y_1 \frac{{\gamma}_1}{h} = {\delta}_1
+   \\
+   A_i y_{i-1} - C_i y_i + B_i y_{i+1} = F_i , 1 <= i <= n - 1
+   \\
+   y_n ({\sigma}_2 - \frac{{\gamma}_2}{h}) + y_{n+1} \frac{{\gamma}_2}{h} = {\delta}_2
+ \end{cases}
+\end{equation*}
+
+где $A_i = \frac{1}{h^2} - \frac{p_i}{2h}$ , 
+ $B_i = \frac{1}{h^2} + \frac{p_i}{2h}$ , 
+  $A_i = \frac{2}{h^2} - q_i$ , 
+  $F_i = f_i$
+  
+Данная система имеет трехдиагональную матрицу коэффициентов. Значит, она может быть решена методом прогонки. Решение будем искать в виде $y_i = {\alpha}_i y_{i+1} + {\beta}_i$. Так как $y_0 = {\alpha}_0 y_1 + {\beta}_0$ , то, преобразовав первое уравнение доп условий, получим, что 
+
+${\alpha}_0 = \frac{-{\gamma}_1}{{\sigma}_1 h - {\gamma}_1}$
+и ${\beta}_0 = \frac{{\gamma}_1 h}{{\sigma}_1 h - {\gamma}_1}$
+
+Преобразуя уравнение (3) и учитывая, что $y_i = {\alpha}_i y_{i+1} + {\beta}_i$, получим рекуррентные формулы для ${\alpha}_i$ и ${\beta}_i$:
+
+${\alpha}_{i+1} = \frac{B_i}{C_i - {\alpha}_i A_i}$,
+
+
+${\beta}_{i+1} = \frac{A_i {\beta}_i - F_i}{C_i - {\alpha}_i A_i}$, 1<=i<=n-1
+
+Из второго уравнения доп условий с учетом того, что $y_i = {\alpha}_i y_{i+1} + {\beta}_i$, получим, что 
+
+$y_n = \frac{{\delta}_2 h + {\gamma}_2 {\beta}_{n-1}}{{\sigma}_2 h + {\gamma}_2 (1-{\alpha}_{n-1})}$
+
+С помощью данной формулы мы сможем найти численное решение в правой точке сетки.
+
+Данный алгоритм как раз и позволяет найти численное решение краевой задачи.
+
+\newpage
+\section{Описание программы 2}
+Реализация ахождения точек решения краевой задачи
+
+\subsection{Функция main}
+Программа начинает своё выполнение в функции
+\begin{verbatim}
+int main(int argc, char **argv)
+\end{verbatim}
+
+В функции уже введены константы, отвечающие за уравнение моего варианта, поэтому требуется ввести только число разбиений отрезка
+
+
+\subsection{Функции уравнения}
+
+\begin{verbatim}
+double p(double x)
+\end{verbatim}
+
+\begin{verbatim}
+double q(double x)
+\end{verbatim}
+
+\begin{verbatim}
+double f(double x)
+\end{verbatim}
+
+Три функции отвечают за общую формулу дифференциального уравнения.
+
+\newpage
+\section{Код программы 2}
+\begin{lstlisting}
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+double p(double x) {
+	return 2;
+}
+double q(double x) {
+	return (- 1 / x);
+}
+double f(double x) {
+	return 3;
+}
+
+int main(int argc, char *argv[]) {
+	double ab[] = {0.2, 0.5};
+	double a = ab[0], b = ab[1];
+
+	int n;
+	printf("Введите частоту разбиения: \n");
+	scanf("%d", &n);
+	
+	double h = (b - a) / n;
+	
+	double data1[] = {1, 0, 2};
+	double data2[] = {0.5, -1, 1};
+	double sigma1 = data1[0], gamma1 = data1[1], delta1 = data1[2];
+	double sigma2 = data2[0], gamma2 = data2[1], delta2 = data2[2];
+
+	double alpha[n], beta[n];
+	alpha[0] = - gamma1 / (sigma1 * h - gamma1);
+	beta[0] = delta1 * h / (sigma1 * h - gamma1);
+	
+	double x = a + h;
+	
+	for (int i = 1; i < n; i++) {
+		double B = 1 / (h * h) + p(x) / (2 * h);
+		double A = 1 / (h * h) - p(x) / (2 * h);
+		double C = 2 / (h * h) - q(x);
+		alpha[i] = B / (C - A * alpha[i - 1]);
+		beta[i] = (A * beta[i - 1] - f(x)) / (C - A * alpha[i - 1]);
+		x += h;
+	}
+
+	double y = (delta2 * h + gamma2 * beta[n - 1]) / 
+				(sigma2 * h + gamma2 * (1 - alpha[n - 1]));
+	
+	printf("Точки полученные методом прогонки решения краевой задачи:\n");
+	
+	for (int i = n - 1; i >= 0; i--) {
+		printf("(%.3lf; %.3lf)\n", x, y);
+		x -= h;
+		y = alpha[i] * y + beta[i];
+	}
+	printf("(%.3lf; %.3lf)\n", x, y);
+
+	return 0;
+}
+
+\end{lstlisting}
+
+\newpage
+\section{Тестирование программы 2}
+\subsection{Приложение 2. Вариант 4}
+
+$y^{\prime\prime} + 2 y^{\prime} - y / x = 3$
+
+сопоставив данные начальные условия
+
+
+\begin{equation*}
+ \begin{cases}
+   y(0.2) = 2
+   \\
+   0.5 y(0.5) - y^{\prime}(0.5) = 1
+ \end{cases}
+\end{equation*}
+
+с общей системой
+
+\begin{equation*}
+ \begin{cases}
+   {\sigma}_1 y(a) + {\gamma}_1 y^{\prime}(a) = {\delta}_1
+   \\
+   {\sigma_2} y(b) + {\gamma}_1 y^{\prime}(b) = {\delta}_2
+ \end{cases}
+\end{equation*}
+
+получаем, что 
+
+${\sigma}_1 = 1$, ${\gamma}_1 = 0$, ${\delta}_1 = 2$
+
+
+${\sigma}_2 = 0.5$, ${\gamma}_2 = -1$, ${\delta}_2 = 1$
+
+$a = 0.2, b = 0.5$
+
+Все эти данные внесены в программы в качестве констант
+
+Вывод моей программы при n = 5, 10, 15:
+
+
+\begin{multicols}{3}
+\begin{verbatim}
+n = 5
+Точки полученные методом 
+прогонки решения краевой 
+задачи:
+(0.500; 1.596)
+(0.440; 1.609)
+(0.380; 1.648)
+(0.320; 1.720)
+(0.260; 1.833)
+(0.200; 2.000)
+\end{verbatim}
+
+\columnbreak
+\begin{verbatim}
+n = 10
+Точки полученные методом 
+прогонки решения краевой 
+задачи:
+(0.500; 1.550)
+(0.470; 1.557)
+(0.440; 1.570)
+(0.410; 1.590)
+(0.380; 1.617)
+(0.350; 1.653)
+(0.320; 1.698)
+(0.290; 1.754)
+(0.260; 1.822)
+(0.230; 1.903)
+(0.200; 2.000)
+\end{verbatim}
+
+\columnbreak
+\begin{verbatim}
+n = 15
+Точки полученные методом 
+прогонки решения краевой 
+задачи:
+(0.500; 1.535)
+(0.480; 1.539)
+(0.460; 1.547)
+(0.440; 1.557)
+(0.420; 1.570)
+(0.400; 1.587)
+(0.380; 1.607)
+(0.360; 1.631)
+(0.340; 1.659)
+(0.320; 1.691)
+(0.300; 1.729)
+(0.280; 1.771)
+(0.260; 1.818)
+(0.240; 1.872)
+(0.220; 1.932)
+(0.200; 2.000)
+\end{verbatim}
+
+%\blindtext\blindtext
+\end{multicols}
+
+\newpage
+\subsection{График}
+
+Построим график на основе этих данных и точного решения, полученного в программе Desmos:
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=6cm]{chart5.jpg}
+\caption{Красное - n = 5, зеленое - n = 10, синее - n = 15}
+\end{figure}
+
+
+\newpage
+
+\section{Выводы}
+
+1) В данной работе реализовано решение задачи Коши для дифференциального уравнения и системы дифференциальных уравнений методами Рунге-Кутта 2-го и 4-го порядков точности.
+
+Метод 4-ого порядка точности может работать немного медленнее, так как на каждом шаге функцию f(x,y) приходится вычислять 4 раза, когда в методе Рунге-Кутта 2- ого порядка – 2 раза, однако это усложнение схемы окупается высокой точностью, что было показано экспериментально: даже с достаточно малым кол-вом итераций метод Рунге-Кутта 4-ого порядка вычисляет решения с большой точностью, даже большей, чем 2-го порядка точности при большом кол-ве итераций.
+
+
+
+2) В данной работе был освоен и реализован метод прогонки решения краевой задачи для дифференциального уравнения второго порядка.
+
+Данный метод оказался простым в реализации.
+
+Экспериментально было показано, что метод достаточно точно вычисляет решения при малом кол-ве итераций и что при увеличении числа итераций, точность решения задачи увеличивается.
+
+
+\end{document}
